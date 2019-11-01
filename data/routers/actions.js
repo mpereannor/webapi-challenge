@@ -6,21 +6,24 @@ const router = express.Router();
 
 //ENDPOINTS
 
-//postAction
-// router.post('/', (res, req) => { 
-//     const br = req.body;
-//     br;
-//     const action = { 
-//         name: req.body.name,
-//         description: req.body.description,
-//         notes: req.body.notes
-//     };
+//createAction
+router('/', validateActionContent,(req, res) => {
+    const { id } = req.params;
+    const { description, notes } = req.body;
 
-//     ActionsDb.insert(action)
-//     .then(data => { 
-//         return res.status(200).json(data)
-//     })
-// })
+    ActionsDb.insert({
+        project_id: id,
+        description,
+        notes
+    })
+    .then(action => { 
+        res.status(201).json(action)
+    })
+    .catch(error => { 
+        res.status(500).json(error)
+    })
+})
+
 
 //postProjectById
 // Users.getUserPosts(id)
@@ -55,22 +58,6 @@ const router = express.Router();
 
 //CUSTOM MIDDLEWARES 
 
-//validateProjectContent
-// function validatePost(req, res, next) {
-//     const { text } = req.body;
-
-//     if (!Object.keys(req.body).length) {
-//         return res.status(400).json({
-//             message: "Post data missing"
-//         })
-//     }
-//     else if(!text) {
-//         return  res.status(400).json({
-//             message: "Text field required"
-//         })
-//     } 
-//     next();
-// }
 
 function validateActionContent (req, res, next) { 
     const { name, description, notes } = req.body;
