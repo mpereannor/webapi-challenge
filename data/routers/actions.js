@@ -32,7 +32,7 @@ router.get('/:id', (req, res) => {
 //createAction
 router.post('/:id',(req, res) => {
     const { project_id } = req.params; 
-    const { description, notes } = req.body;
+    const { description, notes} = req.body;
 
     ActionsDb.insert({
         project_id,

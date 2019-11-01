@@ -80,18 +80,24 @@ router.put('/:id', validateProjectId, validateProjectContent, (req, res) => {
     })
 })
 
-// router.get('/:id/actions', validateProjectId, (req, res)
-// => {
-//     const { id } = req.project;
-//     ProjectsDb.get(params_id)
-//     .then( (actions) => { 
-//         res.status(200).json(actions)
-//     })
-//     .catch(error => { 
-//         res.status(500).json(error)
-//     })
-// })
-    
+router.post('/:id/actions', (req, res) => { 
+    const data  = req.body;
+    const { project_id} = req.params;
+    const actionData = {
+        ...data,
+        project_id
+    };
+
+    ActionsDb.insert(actionData)
+    .then(action => { 
+        res.status(201).json(action);
+    })
+    .catch(error => {
+        res.status(500).json({ 
+            error
+        })
+    });
+})   
 
     
 
