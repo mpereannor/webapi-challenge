@@ -6,15 +6,38 @@ const router = express.Router();
 
 //ENDPOINTS
 
-//createAction
-router.post('/', validateActionContent,(req, res) => {
+//getActions
+router.get('/', (req, res) => { 
+    ActionsDb.get()
+    .then(actions => { 
+        res.status(200).json(actions)
+    })
+    .catch(error => { 
+        res.status(500).json(error)
+    })
+})
+
+//getActionsbyId
+router.get('/:id', (req, res) => { 
     const { id } = req.params;
+    ActionsDb.get(id)
+    .then( (actions) => {
+        res.status(201).json(actions) 
+    })
+    .catch(error => { 
+        res.status(500).json(error)
+    })
+})
+
+//createAction
+router.post('/:id',(req, res) => {
+    const { project_id } = req.params; 
     const { description, notes } = req.body;
 
     ActionsDb.insert({
-        project_id: id,
+        project_id,
         description,
-        notes
+        notes,
     })
     .then(action => { 
         res.status(201).json(action)
@@ -57,8 +80,6 @@ router.put('/:id', validateActionId, (req, res) => {
         })
     })
 })
-
-
 
 //CUSTOM MIDDLEWARES 
 

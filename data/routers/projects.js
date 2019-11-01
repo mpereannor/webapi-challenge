@@ -7,7 +7,7 @@ const router = express.Router();
 //ENDPOINTS
 
 //createProject
-router.post('/', validateProjectContent, (res, req) => { 
+router.post('/', validateProjectContent, ( req, res) => { 
     ProjectsDb.insert(req.body)
     .then(project => { 
      res.status(200).json(project)
@@ -21,7 +21,7 @@ router.post('/', validateProjectContent, (res, req) => {
 
 
 //getProject
-router.get('/', (res, req) => { 
+router.get('/', (req, res ) => { 
     ProjectsDb.get()
     .then(data => { 
          res.status(200).json(data)
@@ -37,13 +37,13 @@ router.get('/', (res, req) => {
 
 //getProjectById
 
-router.get('/:id', validateProjectId, (res, req) => { 
-    res.json(req.project);
+router.get('/:id', validateProjectId, (req, res) => { 
+    res.status(200).json(req.project);
 });
 
     
 //deleteProjectById
-router.delete('/:id', validateProjectId, (res, req) => { 
+router.delete('/:id', validateProjectId, (req, res) => { 
     const { id } = req.project;
 
     ProjectsDb.remove(id)
@@ -62,7 +62,7 @@ router.delete('/:id', validateProjectId, (res, req) => {
 
 //updateProjectById
 
-router.put('/:id', validateProjectId, validateProjectContent, (res, req) => { 
+router.put('/:id', validateProjectId, validateProjectContent, (req, res) => { 
     const { id } = req.project;
     const data = req.body;
 
@@ -80,6 +80,20 @@ router.put('/:id', validateProjectId, validateProjectContent, (res, req) => {
     })
 })
 
+// router.get('/:id/actions', validateProjectId, (req, res)
+// => {
+//     const { id } = req.project;
+//     ProjectsDb.get(params_id)
+//     .then( (actions) => { 
+//         res.status(200).json(actions)
+//     })
+//     .catch(error => { 
+//         res.status(500).json(error)
+//     })
+// })
+    
+
+    
 
 
 //CUSTOM MIDDLEWARES 
