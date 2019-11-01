@@ -10,7 +10,7 @@ const router = express.Router();
 router.post('/', validateProjectContent, (res, req) => { 
     ProjectsDb.insert(req.body)
     .then(project => { 
-        return res.status(200).json(project)
+     res.status(200).json(project)
     })
     .catch(error => {
         res.status(500).json({
@@ -24,7 +24,7 @@ router.post('/', validateProjectContent, (res, req) => {
 router.get('/', (res, req) => { 
     ProjectsDb.get()
     .then(data => { 
-        return res.status(200).json(data)
+         res.status(200).json(data)
         
     })
     .catch(error => {
@@ -62,7 +62,7 @@ router.delete('/:id', validateProjectId, (res, req) => {
 
 //updateProjectById
 
-router.update('/:id', validateProjectId, validateProjectContent, (res, req) => { 
+router.put('/:id', validateProjectId, validateProjectContent, (res, req) => { 
     const { id } = req.project;
     const data = req.body;
 

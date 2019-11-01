@@ -7,7 +7,7 @@ const router = express.Router();
 //ENDPOINTS
 
 //createAction
-router('/', validateActionContent,(req, res) => {
+router.post('/', validateActionContent,(req, res) => {
     const { id } = req.params;
     const { description, notes } = req.body;
 
@@ -41,7 +41,7 @@ router.delete('/:id', validateActionId, (req, res) => {
 } )
 
 //updateAction 
-router.update('/:id', validateActionId, (req, res) => { 
+router.put('/:id', validateActionId, (req, res) => { 
     const { id } = req.action;
     const data = req.body;
     ActionsDb.update(id,data)
