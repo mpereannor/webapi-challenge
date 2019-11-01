@@ -24,41 +24,45 @@ router('/', validateActionContent,(req, res) => {
     })
 })
 
+//deleteActionById
+router.delete('/:id', validateActionId, (req, res) => {
+    const { id } = req.action;
+    ActionsDb.remove(id)
+    .then(() => { 
+        res.status(200).json({ 
+            message: "Action deleted successfully"
+        })
+    })
+    .catch(error => { 
+        res.status(500).json({ 
+            errorMessage: "Project was not deleted," + error
+        })
+    })
+} )
 
-//postProjectById
-// Users.getUserPosts(id)
-// .then( user => { 
-//     return res.status(200).json(req.user)
-// })
-// .catch((error) => {
-//     return res.status(500).json({
-//         message: `The Post could not be retrieved: ${error}`
-//     });
-// });
+//updateAction 
+router.update('/:id', validateActionId, (req, res) => { 
+    const { id } = req.action;
+    const data = req.body;
+    ActionsDb.update(id,data)
+    .then(() => {
+        res.status(200).json({
+            ...req.action,
+            ...data
+        })
+    })
+    .catch( error => { 
+        res.status(500).json({
+            message: "Action unable to update" + error
+        })
+    })
+})
 
-// });
 
-// router.get('/:id', (res, req) => { 
-//     const dd = req.params;
-//     console.log(dd);
-//     const { id } = req.params;
-//     ActionsDb.get(id)
-//     .then(data => { 
-//         return res.status(200).json(data)
-//     })
-// })
-
-//getProject
-
-//getProjectById
-
-//deleteProjectById
-
-//updateProjectById
 
 //CUSTOM MIDDLEWARES 
 
-
+//validateActionContent
 function validateActionContent (req, res, next) { 
     const { name, description, notes } = req.body;
     
@@ -75,8 +79,26 @@ function validateActionContent (req, res, next) {
     next();
 }
 
-//validateProject
-
-//validateAction
+//validateActionById
+function validateActionId (req, res, next) { 
+    const { id } = req.params;
+    ActionsDb.get(id)
+    .then(action => { 
+        if(action){ 
+            req.action = action;
+            next()
+        }
+        else{
+            res.status(404).json({
+                message: "Action id is invalid"
+            })
+        }
+    })
+    .catch(error => {
+        res.status(404).json({
+            message: "Error Check id" + error.message
+        })
+    })
+}
 
 module.exports = router;
