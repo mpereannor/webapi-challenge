@@ -6,7 +6,7 @@ const router = express.Router();
 
 //ENDPOINTS
 
-//createProjects
+//createProject
 router.post('/', validateProjectContent, (res, req) => { 
     ProjectsDb.insert(req.body)
     .then(project => { 
@@ -43,8 +43,42 @@ router.get('/:id', validateProjectId, (res, req) => {
 
     
 //deleteProjectById
+router.delete('/:id', validateProjectId, (res, req) => { 
+    const { id } = req.project;
+
+    ProjectsDb.remove(id)
+    .then(() => { 
+        res.status(200).json({ 
+            message: "Project deleted successfully"
+        })
+    })
+    .catch(error => { 
+        res.status(500).json({ 
+            errorMessage: "Project was not deleted," + error
+        })
+    })
+
+})
 
 //updateProjectById
+
+router.update('/:id', validateProjectId, validateProjectContent, (res, req) => { 
+    const { id } = req.project;
+    const data = req.body;
+
+    ProjectsDb.update(id, data)
+    .then(() => { 
+        res.status(200).json({ 
+            ...req.project, 
+            ...data
+        })
+    })
+    .catch( error => { 
+        res.status(500).json({
+            message: "Project unable to update" + error
+        })
+    })
+})
 
 
 
