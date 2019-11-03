@@ -26,13 +26,25 @@ Demonstrate your understanding of this Sprint's concepts by answering the follow
 
 - [ ] Mention two parts of Express that you learned about this week.
 
+Express.js uses middleware to systematically arrange different function calls. A middleware is a chunk or cluster of code that has access to a user’s request, the application’s response, and the next middleware to be used. With such an architecture, it becomes easy for Express js developers to add, remove, or modify various features to and from the application, giving high scalability to the application
+
+Routing allows a web application to preserve web page states through their URLs. These URLs may be shared with other users, and visiting these URLs will take users to the exact page state that was originally shared. Node.js has a routing mechanism, but it’s a basic and rudimentary one. Express.js offers a more advanced and efficient routing mechanism that is able to handle highly dynamic URLs.
+
 - [ ] Describe Middleware?
 
+Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
+
+Middleware functions can;Execute any code, Make changes to the request and the response objects, End the request-response cycle and call the next middleware function in the stack.
+
 - [ ] Describe a Resource?
+Any data stored on the server that can be retrieved on request by the enduser from the server.
 
 - [ ] What can the API return to help clients know if a request was successful?
+http status codes 
 
 - [ ] How can we partition our application into sub-applications?
+
+this is possible by the use of express router 
 
 ## Project Setup
 
